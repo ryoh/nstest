@@ -3,7 +3,7 @@ use std::ffi::CString;
 use anyhow::Result;
 use nix::sched::{unshare, CloneFlags};
 use nix::sys::wait::waitpid;
-use nix::unistd::{execv, fork, getpid, getuid, ForkResult};
+use nix::unistd::{execvp, fork, getpid, getuid, ForkResult};
 
 fn main() -> Result<()> {
     // Start program
@@ -11,8 +11,7 @@ fn main() -> Result<()> {
 
     // unshare start
     unshare(
-        CloneFlags::CLONE_FS
-            | CloneFlags::CLONE_NEWCGROUP
+        CloneFlags::CLONE_NEWCGROUP
             | CloneFlags::CLONE_NEWIPC
             | CloneFlags::CLONE_NEWNET
             | CloneFlags::CLONE_NEWNS
@@ -47,7 +46,7 @@ fn main() -> Result<()> {
             let argv =
                 ["echo", "Hello", "World"].map(|s| CString::new(s).expect("CString::new failed"));
 
-            execv(&path, &argv).expect("failed execv");
+            execvp(&path, &argv).expect("failed execv");
         }
     }
 
