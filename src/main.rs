@@ -27,7 +27,12 @@ fn main() -> Result<()> {
     // fork start (for run command)
     match unsafe { fork().expect("failed fork") } {
         ForkResult::Parent { child } => {
-            println!("I'm parent. PID: {} User: {}", getpid(), getuid());
+            println!(
+                "I'm parent. PID: {} User: {} Child: {}",
+                getpid(),
+                getuid(),
+                child
+            );
 
             // wait child process
             waitpid(child, None).expect("failed waitpid");
