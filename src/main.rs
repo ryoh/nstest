@@ -42,9 +42,10 @@ fn main() -> Result<()> {
             println!("I'm child. PID: {} User: {}", getpid(), getuid());
 
             // Run command
-            let path = CString::new("/bin/echo").expect("CString::new failed");
-            let argv =
-                ["echo", "Hello", "World"].map(|s| CString::new(s).expect("CString::new failed"));
+            let path = CString::new("/bin/sh").expect("CString::new failed");
+            //let argv =
+            //    ["echo", "Hello", "World"].map(|s| CString::new(s).expect("CString::new failed"));
+            let argv = [""].map(|s| CString::new(s).expect("CString::new failed"));
 
             execvp(&path, &argv).expect("failed execv");
         }
